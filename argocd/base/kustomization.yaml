@@ -7,3 +7,6 @@ resources:
   - namespace.yaml
   - install.yaml
   - argocd-ingress.yaml
+
+patchesStrategicMerge:
+  - argocd-cm-health.yaml
