@@ -24833,6 +24833,45 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
   name: argocd-cm
+data:
+  resource.customizations.health.postgresql.cnpg.io_Cluster: |
+    local hs = {}
+    if obj.status == nil then
+      hs.status = "Progressing"
+      hs.message = "Waiting for status"
+      return hs
+    end
+
+    local phase = obj.status.phase or ""
+    local reason = obj.status.phaseReason or ""
+    local instances = obj.status.instances or 0
+    local ready = obj.status.readyInstances or 0
+
+    if ready > 0 and ready == instances then
+      hs.status = "Healthy"
+      hs.message = "All instances ready (" .. ready .. "/" .. instances .. ")"
+      return hs
+    end
+
+    if phase == "Cluster in healthy state" then
+      hs.status = "Healthy"
+      hs.message = phase
+      return hs
+    end
+
+    if phase == "Cluster in degraded state" or phase == "Cluster in failing state" then
+      hs.status = "Degraded"
+      hs.message = phase
+      return hs
+    end
+
+    hs.status = "Progressing"
+    if reason ~= "" then
+      hs.message = phase .. " (" .. reason .. ")"
+    else
+      hs.message = phase
+    end
+    return hs
 ---
 apiVersion: v1
 kind: ConfigMap
