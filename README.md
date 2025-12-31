@@ -9,6 +9,7 @@ Why this repo
 
 Scope
 - `postgres-ha/`: HA Postgres setup and experiments.
+- `argocd/`: Argo CD install (single environment).
 
 Notes
 - This is a learning repo, not a production template.
