@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cnpg-basic-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: cnpg.basic
+      rules:
+        - alert: CnpgOperatorDown
+          expr: up{job=~"cnpg-operator.*"} == 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: CNPG operator is not scraping
+            description: Prometheus has not scraped the CNPG operator for 5 minutes.
+        - alert: CnpgInstanceDown
+          expr: up{job=~"cnpg-clusters.*"} == 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: CNPG instance is not scraping
+            description: Prometheus has not scraped a CNPG instance for 5 minutes.
