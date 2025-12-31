@@ -2,6 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: app-db
+  namespace: postgres
 spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
