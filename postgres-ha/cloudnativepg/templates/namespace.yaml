@@ -1,0 +1,7 @@
+{{- if .Values.namespace.create }}
+{{- $ns := default .Values.cluster.namespace .Values.namespace.name -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $ns }}
+{{- end }}

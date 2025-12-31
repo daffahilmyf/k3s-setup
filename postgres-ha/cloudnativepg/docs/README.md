@@ -1,21 +1,28 @@
-# CloudNativePG on k3s (Kustomize)
+# CloudNativePG on k3s (Helm)
 
 Structure
-- base: namespaces
-- components/operator: CNPG operator manifest (vendored)
-- components/cluster: base cluster spec
-- components/observability: PodMonitors and basic alerts for kube-prometheus-stack
-- overlays/dev: single-instance, small storage
-- overlays/prod: 3 instances, larger storage
+- Chart.yaml, values.yaml: Helm chart root and defaults
+- values-dev.yaml: single-instance, small storage
+- values-prod.yaml: 3 instances, larger storage
 
 Notes
-- Operator manifest is vendored in `components/operator/cnpg-1.28.0.yaml`.
-- Update this file when bumping CNPG.
+- Install the CloudNativePG operator separately (Helm).
 - Observability resources target namespace `monitoring` and expect the `kube-prometheus-stack` release label.
-- `components/cluster/cluster.yaml` is a minimal example; add backups, resources, and policies as needed.
+- `values.yaml` is a minimal example; add backups, resources, and policies as needed.
 
-Apply
+Operator install (Helm)
+Source charts repo: https://github.com/cloudnative-pg/charts
 ```
-kubectl apply -k overlays/dev
-kubectl apply -k overlays/prod
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm repo update
+helm upgrade --install cnpg \
+  --namespace cnpg-system \
+  --create-namespace \
+  cnpg/cloudnative-pg
+```
+
+Install/Upgrade
+```
+helm upgrade --install cnpg . -n postgres --create-namespace -f values-dev.yaml
+helm upgrade --install cnpg . -n postgres --create-namespace -f values-prod.yaml
 ```

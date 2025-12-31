@@ -1,9 +1,11 @@
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
+namespace:
+  create: true
+  name: postgres
+
+cluster:
+  enabled: true
   name: app-db
   namespace: postgres
-spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
   resources:
@@ -19,3 +21,12 @@ spec:
     initdb:
       database: app
       owner: app
+
+observability:
+  enabled: true
+  namespace: monitoring
+  releaseLabel: kube-prometheus-stack
+  operatorNamespace: cnpg-system
+  clusterSelector:
+    labelKey: cnpg.io/cluster
+    labelValue: app-db
