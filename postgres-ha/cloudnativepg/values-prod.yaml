@@ -1,4 +1,13 @@
+namespace:
+  name: postgres-prod
+
 cluster:
+  name: app-db-prod
+  namespace: postgres-prod
   instances: 3
   storage:
     size: 10Gi
+
+observability:
+  clusterSelector:
+    labelValue: app-db-prod

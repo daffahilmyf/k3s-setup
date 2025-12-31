@@ -1,9 +1,10 @@
 {{- if .Values.cluster.enabled }}
+{{- $ns := default .Values.cluster.namespace .Values.namespace.name -}}
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: {{ .Values.cluster.name }}
-  namespace: {{ .Values.cluster.namespace }}
+  namespace: {{ $ns }}
 spec:
   instances: {{ .Values.cluster.instances }}
   primaryUpdateStrategy: {{ .Values.cluster.primaryUpdateStrategy }}

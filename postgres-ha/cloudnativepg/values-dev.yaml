@@ -1,4 +1,13 @@
+namespace:
+  name: postgres-dev
+
 cluster:
+  name: app-db-dev
+  namespace: postgres-dev
   instances: 1
   storage:
     size: 1Gi
+
+observability:
+  clusterSelector:
+    labelValue: app-db-dev

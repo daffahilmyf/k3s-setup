@@ -1,4 +1,6 @@
 {{- if .Values.observability.enabled }}
+{{- $clusterNamespace := default .Values.cluster.namespace .Values.namespace.name -}}
+{{- $clusterLabelValue := default .Values.cluster.name .Values.observability.clusterSelector.labelValue -}}
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
@@ -26,10 +28,10 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-      - {{ .Values.cluster.namespace }}
+      - {{ $clusterNamespace }}
   selector:
     matchLabels:
-      {{ .Values.observability.clusterSelector.labelKey }}: {{ .Values.observability.clusterSelector.labelValue }}
+      {{ .Values.observability.clusterSelector.labelKey }}: {{ $clusterLabelValue }}
   podMetricsEndpoints:
     - port: metrics
 ---
