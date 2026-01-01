@@ -6,3 +6,12 @@ nats:
 
     jetstream:
       enabled: true
+  promExporter:
+    enabled: true
+
+observability:
+  enabled: true
+  namespace: monitoring
+  releaseLabel: kube-prometheus-stack
+  podMonitor:
+    name: nats

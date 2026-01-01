@@ -1,0 +1,21 @@
+{{- if .Values.observability.enabled }}
+{{- $natsName := default "nats" .Values.nats.nameOverride -}}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ .Values.observability.podMonitor.name }}
+  namespace: {{ .Values.observability.namespace }}
+  labels:
+    release: {{ .Values.observability.releaseLabel }}
+spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $natsName }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: nats
+  podMetricsEndpoints:
+    - port: prom-metrics
+{{- end }}
