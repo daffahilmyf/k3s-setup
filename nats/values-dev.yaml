@@ -1,24 +1,29 @@
-# Small k3s cluster defaults (3 nodes, 4GB RAM each).
 nats:
   namespaceOverride: nats-dev
+
   config:
-    cluster:
-      enabled: true
-      replicas: 3
     jetstream:
-      enabled: true
       fileStore:
         pvc:
           size: 5Gi
 
   container:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
+    env:
+      GOMEMLIMIT: 400MiB
+    merge:
+      resources:
+        requests:
+          cpu: "500m"
+          memory: 512Mi
+        limits:
+          cpu: "500m"
+          memory: 512Mi
+
+  podTemplate:
+    topologySpreadConstraints:
+      kubernetes.io/hostname:
+        maxSkew: 1
+        whenUnsatisfiable: DoNotSchedule
 
   natsBox:
     enabled: true
