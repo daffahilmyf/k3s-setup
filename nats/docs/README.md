@@ -13,7 +13,7 @@ Notes
 Install/Upgrade
 ```
 cd nats
-helm repo add nats https://nats-io.github.io/k8s
+helm repo add nats https://nats-io.github.io/k8s/helm/charts
 helm repo update
 helm dependency update
 helm upgrade --install nats . -n nats --create-namespace -f values-dev.yaml
