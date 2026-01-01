@@ -1,5 +1,6 @@
 # Small k3s cluster defaults (3 nodes, 4GB RAM each).
 nats:
+  namespaceOverride: nats-dev
   config:
     cluster:
       enabled: true

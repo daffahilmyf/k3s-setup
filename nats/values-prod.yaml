@@ -1,5 +1,6 @@
 # Production-ish defaults for a small 3-node k3s cluster.
 nats:
+  namespaceOverride: nats
   config:
     cluster:
       enabled: true

@@ -9,6 +9,7 @@ Notes
 - This is a wrapper chart that pulls the upstream NATS Helm chart as a dependency.
 - Use values in `values.yaml` or a separate values file to customize auth, JetStream, storage, and resources.
 - JetStream file storage uses a PVC; set `storageClassName` if your k3s cluster does not have a default.
+- Argo CD requires explicit namespaces in manifests; set `nats.namespaceOverride` to match your target namespace.
 
 Install/Upgrade
 ```
