@@ -1,0 +1,23 @@
+# Small k3s cluster defaults (3 nodes, 4GB RAM each).
+nats:
+  config:
+    cluster:
+      enabled: true
+      replicas: 3
+    jetstream:
+      enabled: true
+      fileStore:
+        pvc:
+          size: 5Gi
+
+  container:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  natsBox:
+    enabled: true

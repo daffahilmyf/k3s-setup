@@ -1,0 +1,3 @@
+# Wrapper chart values for upstream NATS Helm chart.
+# See upstream values for full configuration options.
+nats: {}

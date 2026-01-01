@@ -1,0 +1,10 @@
+apiVersion: v2
+name: nats
+description: NATS for k3s
+type: application
+version: 0.1.0
+appVersion: "2.12.3"
+dependencies:
+  - name: nats
+    version: "2.12.3"
+    repository: https://nats-io.github.io/k8s/
